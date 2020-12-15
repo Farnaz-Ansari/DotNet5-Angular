@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using API.Extensions;
 using API.Middleware;
+using Microsoft.AspNetCore.Http;
 
 namespace API
 {
@@ -29,6 +30,9 @@ namespace API
             });
             services.AddCors();
             services.AddIdentityServices(_config);
+            services.ConfigureApplicationCookie(options => {
+            options.Cookie.SameSite = SameSiteMode.None;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
