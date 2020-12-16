@@ -10,8 +10,8 @@ import { Router } from '@angular/router';
 })
 export class RegisterComponent implements OnInit {
   @Output() cancelRegister = new EventEmitter();
-  registerForm!: FormGroup;
-  maxDate!: Date;
+  registerForm: FormGroup;
+  maxDate: Date;
   validationErrors: string[] = [];
 
   constructor(private accountService: AccountService, private fb: FormBuilder, private router: Router) { }
@@ -22,10 +22,14 @@ export class RegisterComponent implements OnInit {
     this.maxDate.setFullYear(this.maxDate.getFullYear() -18);
   }
 
+  // get formControl() {
+  //   return this.registerForm.controls["username"] as FormControl;
+  // }
+
   intitializeForm() {
     this.registerForm = this.fb.group({
       gender: ['male'],
-      username: ['', Validators.required],
+      // username: [''],
       knownAs: ['', Validators.required],
       dateOfBirth: ['', Validators.required],
       city: ['', Validators.required],
@@ -37,7 +41,7 @@ export class RegisterComponent implements OnInit {
   }
 
   matchValues(matchTo: string): ValidatorFn {
-    return (control: any) => {
+    return (control: AbstractControl) => {
       return control?.value === control?.parent?.controls[matchTo].value
         ? null : {isMatching: true}
     }
